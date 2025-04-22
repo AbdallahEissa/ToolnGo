@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolnGo – Ready-Made Tools for Your Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#6CACE4',secondary:'#B39DDB'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Poppins', sans-serif;
+}
+.font-inter {
+font-family: 'Inter', sans-serif;
+}
+.font-montserrat {
+font-family: 'Montserrat', sans-serif;
+}
+.hero-section {
+background-image: url('https://readdy.ai/api/search-image?query=A%20modern%2C%20clean%20digital%20workspace%20with%20soft%20gradient%20background.%20On%20the%20left%20side%2C%20keep%20a%20clean%20white%20space%20for%20text.%20On%20the%20right%20side%2C%20show%20digital%20business%20tools%20like%20a%20stylish%20QR%20menu%2C%20digital%20invitation%2C%20product%20lookbook%2C%20and%20booking%20page%20floating%20in%20a%203D%20space.%20The%20image%20should%20have%20a%20soft%20blue%20%25236CACE4%20and%20light%20purple%20%2523B39DDB%20color%20scheme.%20The%20transition%20from%20left%20to%20right%20should%20be%20smooth%20and%20natural.&width=1600&height=800&seq=123456&orientation=landscape');
+background-size: cover;
+background-position: center;
+}
+.custom-checkbox {
+appearance: none;
+-webkit-appearance: none;
+width: 1.25rem;
+height: 1.25rem;
+border: 2px solid #B39DDB;
+border-radius: 4px;
+outline: none;
+cursor: pointer;
+position: relative;
+}
+.custom-checkbox:checked {
+background-color: #B39DDB;
+}
+.custom-checkbox:checked::after {
+content: "";
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 0.5rem;
+height: 0.5rem;
+border-radius: 1px;
+background-color: white;
+}
+input:focus, textarea:focus {
+outline: none;
+border-color: #6CACE4;
+}
+.step-line {
+position: absolute;
+top: 2.5rem;
+left: 1.25rem;
+width: 2px;
+height: calc(100% - 5rem);
+background-color: #E5E7EB;
+z-index: -1;
+}
+.step-line-active {
+position: absolute;
+top: 2.5rem;
+left: 1.25rem;
+width: 2px;
+background-color: #6CACE4;
+z-index: -1;
+height: 0;
+transition: height 0.5s ease;
+}
+.floating-animation {
+animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-15px); }
+100% { transform: translateY(0px); }
+}
+.tool-card:hover {
+transform: translateY(-8px);
+box-shadow: 0 10px 25px -5px rgba(108, 172, 228, 0.1), 0 10px 10px -5px rgba(179, 157, 219, 0.04);
+}
+.slide-in {
+animation: slideIn 0.5s ease forwards;
+}
+@keyframes slideIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body class="bg-white">
+<!-- Header -->
+<header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<a href="#" class="text-2xl font-['Pacifico'] text-primary">ToolnGo</a>
+<!-- Desktop Navigation -->
+<nav class="hidden md:flex items-center space-x-8">
+<a href="#" class="font-medium text-gray-900 hover:text-primary transition">Home</a>
+<a href="#tools" class="font-medium text-gray-600 hover:text-primary transition">Browse Tools</a>
+<a href="#contact" class="font-medium text-gray-600 hover:text-primary transition">Contact</a>
+<button class="bg-primary text-white px-6 py-2 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">Get Started</button>
+</nav>
+<!-- Mobile Menu Button -->
+<div class="md:hidden w-10 h-10 flex items-center justify-center">
+<button id="mobile-menu-button" class="text-gray-600">
+<i class="ri-menu-line ri-lg"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Navigation -->
+<div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+<div class="container mx-auto px-6 py-4 space-y-4">
+<a href="#" class="block font-medium text-gray-900 hover:text-primary transition">Home</a>
+<a href="#tools" class="block font-medium text-gray-600 hover:text-primary transition">Browse Tools</a>
+<a href="#contact" class="block font-medium text-gray-600 hover:text-primary transition">Contact</a>
+<button class="w-full bg-primary text-white px-6 py-2 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">Get Started</button>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+
+
+<section class="hero-section min-h-screen pt-24 flex items-center">
+    <div class="container mx-auto px-6 py-16 md:py-24">
+        <div class="w-full max-w-2xl">
+<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">Tools That Boost Your Business — Instantly</h1>
+<p class="text-xl text-gray-700 mb-8 font-inter">Ready-made digital tools crafted for small businesses. No tech skills needed, delivered in 48 hours.</p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-primary text-white px-8 py-3 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap flex items-center justify-center">
+<i class="ri-sparkle-line ri-lg mr-2"></i> Get Started
+</button>
+<button id="browse-tools-btn" class="border-2 border-gray-300 text-gray-800 px-8 py-3 !rounded-button font-medium hover:border-primary hover:text-primary transition whitespace-nowrap flex items-center justify-center">
+<i class="ri-stack-line ri-lg mr-2"></i> Browse Tools
+</button>
+</div>
+</div>
+</div>
+</section>
+<div class="container mx-auto px-20 md:px-20">
+<!-- What We Offer Section -->
+<section id="tools" class="py-16 md:py-24 bg-gray-50">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What We Offer</h2>
+<p class="text-lg text-gray-700 max-w-2xl mx-auto">Professional digital tools that help your business stand out, delivered quickly and affordably.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Digital Invitations -->
+<div class="bg-white rounded-lg shadow-md p-6 transition duration-300 tool-card">
+<div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-mail-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Digital Invitations</h3>
+<p class="text-gray-700 mb-4">Beautiful digital invites with RSVP tracking, maps, and shareable links for your events.</p>
+<div class="h-48 rounded-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20modern%2C%20elegant%20digital%20invitation%20design%20for%20a%20business%20event%2C%20featuring%20a%20clean%20layout%20with%20RSVP%20button%2C%20location%20map%2C%20and%20event%20details.%20The%20design%20should%20be%20mobile-friendly%20and%20have%20a%20professional%20look%20with%20soft%20blue%20and%20purple%20accents.%20The%20background%20should%20be%20simple%20and%20clean.&width=400&height=300&seq=123457&orientation=landscape" alt="Digital Invitation Example" class="w-full h-full object-cover object-top">
+</div>
+</div>
+<!-- QR Menus -->
+<div class="bg-white rounded-lg shadow-md p-6 transition duration-300 tool-card">
+<div class="w-14 h-14 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-qr-code-line ri-xl text-secondary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">QR Menus</h3>
+<p class="text-gray-700 mb-4">Mobile-friendly digital menus with QR codes for restaurants, cafes, and service businesses.</p>
+<div class="h-48 rounded-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20stylish%20QR%20code%20menu%20for%20a%20restaurant%20displayed%20on%20a%20smartphone.%20The%20menu%20should%20have%20a%20clean%20design%20with%20food%20categories%2C%20prices%2C%20and%20high-quality%20food%20images.%20There%20should%20be%20a%20QR%20code%20visible%20in%20the%20corner.%20The%20design%20should%20use%20soft%20blue%20and%20purple%20accents%20on%20a%20white%20background.&width=400&height=300&seq=123458&orientation=landscape" alt="QR Menu Example" class="w-full h-full object-cover object-top">
+</div>
+</div>
+<!-- Product Lookbooks -->
+<div class="bg-white rounded-lg shadow-md p-6 transition duration-300 tool-card">
+<div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-gallery-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Product Lookbooks</h3>
+<p class="text-gray-700 mb-4">Stunning digital catalogs to showcase your products with interactive features.</p>
+<div class="h-48 rounded-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20digital%20product%20lookbook%20or%20catalog%20for%20fashion%20items%20displayed%20on%20a%20tablet.%20The%20lookbook%20should%20have%20a%20clean%2C%20modern%20design%20with%20multiple%20product%20images%20arranged%20in%20a%20grid%20layout.%20The%20design%20should%20include%20navigation%20elements%20and%20should%20use%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=400&height=300&seq=123459&orientation=landscape" alt="Product Lookbook Example" class="w-full h-full object-cover object-top">
+</div>
+</div>
+<!-- Booking Pages -->
+<div class="bg-white rounded-lg shadow-md p-6 transition duration-300 tool-card">
+<div class="w-14 h-14 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-calendar-line ri-xl text-secondary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Booking Pages</h3>
+<p class="text-gray-700 mb-4">Simple booking systems that connect to WhatsApp or your calendar for appointments.</p>
+<div class="h-48 rounded-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20mobile%20booking%20page%20interface%20for%20a%20small%20business%2C%20showing%20a%20calendar%20view%20with%20available%20time%20slots%2C%20a%20form%20for%20customer%20details%2C%20and%20WhatsApp%20integration%20button.%20The%20design%20should%20be%20clean%20and%20user-friendly%20with%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=400&height=300&seq=123460&orientation=landscape" alt="Booking Page Example" class="w-full h-full object-cover object-top">
+</div>
+</div>
+<!-- Promo Pages -->
+<div class="bg-white rounded-lg shadow-md p-6 transition duration-300 tool-card">
+<div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-megaphone-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Promo Pages</h3>
+<p class="text-gray-700 mb-4">Eye-catching landing pages for special offers, events, or product launches.</p>
+<div class="h-48 rounded-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20promotional%20landing%20page%20for%20a%20special%20offer%20or%20event%2C%20displayed%20on%20a%20laptop.%20The%20page%20should%20have%20an%20attention-grabbing%20header%2C%20product%20or%20service%20details%2C%20pricing%20information%2C%20and%20a%20clear%20call-to-action%20button.%20The%20design%20should%20use%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=400&height=300&seq=123461&orientation=landscape" alt="Promo Page Example" class="w-full h-full object-cover object-top">
+</div>
+</div>
+<!-- Custom Requests -->
+<div class="bg-white rounded-lg shadow-md p-6 transition duration-300 tool-card">
+<div class="w-14 h-14 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-tools-line ri-xl text-secondary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Custom Requests</h3>
+<p class="text-gray-700 mb-4">Need something specific? We can create custom digital tools tailored to your business.</p>
+<div class="h-48 rounded-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20creative%20workspace%20showing%20custom%20digital%20business%20tools%20being%20designed.%20The%20image%20should%20show%20a%20designer%20working%20on%20multiple%20screens%20with%20various%20business%20tool%20interfaces%20visible.%20The%20workspace%20should%20have%20a%20clean%2C%20professional%20look%20with%20soft%20blue%20and%20purple%20accent%20elements%20on%20a%20white%20background.&width=400&height=300&seq=123462&orientation=landscape" alt="Custom Tool Example" class="w-full h-full object-cover object-top">
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-16 md:py-24">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
+<p class="text-lg text-gray-700 max-w-2xl mx-auto">Getting your business tools is simple and fast — we handle the tech so you can focus on your business.</p>
+</div>
+<div class="max-w-4xl mx-auto">
+<div class="relative">
+<div class="step-line"></div>
+<div class="step-line-active" id="step-progress"></div>
+<!-- Step 1 -->
+<div class="flex mb-16 relative" data-step="1">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg flex-shrink-0 z-10">1</div>
+<div class="ml-8">
+<h3 class="text-xl font-bold text-gray-900 mb-2">Pick a Tool</h3>
+<p class="text-gray-700">Browse our selection of ready-made tools and choose the one that fits your business needs.</p>
+<div class="mt-4 p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center">
+<div class="w-12 h-12 flex items-center justify-center">
+<i class="ri-store-2-line ri-2x text-primary"></i>
+</div>
+<div class="ml-4">
+<p class="font-medium">Restaurant owner selects a QR Menu</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex mb-16 relative" data-step="2">
+<div class="w-10 h-10 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-bold text-lg flex-shrink-0 z-10">2</div>
+<div class="ml-8">
+<h3 class="text-xl font-bold text-gray-900 mb-2">Send Your Info</h3>
+<p class="text-gray-700">Provide us with your business details, content, and preferences through a simple form.</p>
+<div class="mt-4 p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center">
+<div class="w-12 h-12 flex items-center justify-center">
+<i class="ri-file-list-3-line ri-2x text-gray-400"></i>
+</div>
+<div class="ml-4">
+<p class="font-medium">Submit menu items, photos, and branding</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex mb-16 relative" data-step="3">
+<div class="w-10 h-10 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-bold text-lg flex-shrink-0 z-10">3</div>
+<div class="ml-8">
+<h3 class="text-xl font-bold text-gray-900 mb-2">Get It in 48 Hours</h3>
+<p class="text-gray-700">We'll design and develop your tool within 48 hours and send you the final product.</p>
+<div class="mt-4 p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center">
+<div class="w-12 h-12 flex items-center justify-center">
+<i class="ri-time-line ri-2x text-gray-400"></i>
+</div>
+<div class="ml-4">
+<p class="font-medium">Receive your finished QR menu within 2 days</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex relative" data-step="4">
+<div class="w-10 h-10 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-bold text-lg flex-shrink-0 z-10">4</div>
+<div class="ml-8">
+<h3 class="text-xl font-bold text-gray-900 mb-2">Share with Customers</h3>
+<p class="text-gray-700">Start using your new tool right away — share it on social media, print QR codes, or send links.</p>
+<div class="mt-4 p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center">
+<div class="w-12 h-12 flex items-center justify-center">
+<i class="ri-share-line ri-2x text-gray-400"></i>
+</div>
+<div class="ml-4">
+<p class="font-medium">Place QR codes on tables and in marketing materials</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Why ToolnGo Section -->
+<section class="py-16 md:py-24 bg-gray-50">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why ToolnGo</h2>
+<p class="text-lg text-gray-700 max-w-2xl mx-auto">We make digital tools accessible to every business, regardless of technical expertise or budget.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Mobile-first UX -->
+<div class="bg-white rounded-lg p-6 shadow-sm">
+<div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-smartphone-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Mobile-first UX</h3>
+<p class="text-gray-700">All our tools are designed to work perfectly on smartphones, where most of your customers will use them.</p>
+</div>
+<!-- Delivered in 48h -->
+<div class="bg-white rounded-lg p-6 shadow-sm">
+<div class="w-14 h-14 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-time-line ri-xl text-secondary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Delivered in 48h</h3>
+<p class="text-gray-700">No long waiting periods. Get your business tools ready to use within just 48 hours.</p>
+</div>
+<!-- Affordable -->
+<div class="bg-white rounded-lg p-6 shadow-sm">
+<div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-money-dollar-circle-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Affordable</h3>
+<p class="text-gray-700">Premium digital tools at prices that make sense for small businesses and startups.</p>
+</div>
+<!-- Social Media Ready -->
+<div class="bg-white rounded-lg p-6 shadow-sm">
+<div class="w-14 h-14 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-instagram-line ri-xl text-secondary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Social Media Ready</h3>
+<p class="text-gray-700">Tools designed to be shared on social platforms with eye-catching visuals that grab attention.</p>
+</div>
+<!-- Clean Design -->
+<div class="bg-white rounded-lg p-6 shadow-sm">
+<div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-palette-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">Clean Design</h3>
+<p class="text-gray-700">Professional, minimalist designs that put your business content in the spotlight.</p>
+</div>
+<!-- No Tech Skills Needed -->
+<div class="bg-white rounded-lg p-6 shadow-sm">
+<div class="w-14 h-14 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+<i class="ri-code-box-line ri-xl text-secondary"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-3">No Tech Skills Needed</h3>
+<p class="text-gray-700">We handle all the technical aspects so you can focus on running your business.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Showcase Section -->
+<section class="py-16 md:py-24">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Showcase</h2>
+<p class="text-lg text-gray-700 max-w-2xl mx-auto">See examples of the tools we've created for businesses just like yours.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Wedding Invite -->
+<div class="bg-white rounded-lg overflow-hidden shadow-md">
+<div class="h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20beautiful%20digital%20wedding%20invitation%20displayed%20on%20a%20smartphone.%20The%20invitation%20should%20have%20an%20elegant%20design%20with%20floral%20elements%2C%20the%20couples%20names%2C%20wedding%20date%2C%20venue%20details%2C%20and%20a%20small%20map.%20The%20design%20should%20use%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=600&height=400&seq=123463&orientation=portrait" alt="Wedding Invitation Example" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-6">
+<div class="flex items-center mb-3">
+<span class="text-xs font-medium bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full">Digital Invitation</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Wedding Invitation</h3>
+<p class="text-gray-700 mb-4">Digital invitation with RSVP tracking, location map, and photo gallery for a wedding event.</p>
+<a href="https://readdy.ai/home/40bda923-85cb-40a1-a13d-ddb3c08c5f3f/b8b1ded8-8064-409d-ba55-ca19dc5a5d5c" data-readdy="true" class="text-primary font-medium flex items-center hover:underline">
+View Details <i class="ri-arrow-right-line ri-lg ml-1"></i>
+</a>
+</div>
+</div>
+<!-- Restaurant Menu -->
+<div class="bg-white rounded-lg overflow-hidden shadow-md">
+<div class="h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20digital%20restaurant%20menu%20displayed%20on%20a%20smartphone.%20The%20menu%20should%20have%20a%20clean%2C%20appetizing%20design%20with%20food%20categories%2C%20dish%20descriptions%2C%20prices%2C%20and%20high-quality%20food%20images.%20There%20should%20be%20a%20QR%20code%20visible%20in%20the%20corner.%20The%20design%20should%20use%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=600&height=400&seq=123464&orientation=portrait" alt="Restaurant Menu Example" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-6">
+<div class="flex items-center mb-3">
+<span class="text-xs font-medium bg-secondary bg-opacity-10 text-secondary px-3 py-1 rounded-full">QR Menu</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Restaurant Menu</h3>
+<p class="text-gray-700 mb-4">Mobile-friendly digital menu with categories, images, and descriptions for a local restaurant.</p>
+<a href="https://readdy.ai/home/40bda923-85cb-40a1-a13d-ddb3c08c5f3f/b8b1ded8-8064-409d-ba55-ca19dc5a5d5c" data-readdy="true" class="text-primary font-medium flex items-center hover:underline">
+View Details <i class="ri-arrow-right-line ri-lg ml-1"></i>
+</a>
+</div>
+</div>
+<!-- Fashion Lookbook -->
+<div class="bg-white rounded-lg overflow-hidden shadow-md">
+<div class="h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20digital%20fashion%20lookbook%20displayed%20on%20a%20tablet.%20The%20lookbook%20should%20showcase%20a%20collection%20of%20clothing%20items%20with%20a%20clean%2C%20modern%20layout%2C%20multiple%20product%20images%2C%20and%20minimal%20text.%20The%20design%20should%20use%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=600&height=400&seq=123465&orientation=portrait" alt="Fashion Lookbook Example" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-6">
+<div class="flex items-center mb-3">
+<span class="text-xs font-medium bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full">Product Lookbook</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Fashion Lookbook</h3>
+<p class="text-gray-700 mb-4">Interactive digital catalog showcasing seasonal fashion collections for a boutique.</p>
+<a href="https://readdy.ai/home/40bda923-85cb-40a1-a13d-ddb3c08c5f3f/b8b1ded8-8064-409d-ba55-ca19dc5a5d5c" data-readdy="true" class="text-primary font-medium flex items-center hover:underline">
+View Details <i class="ri-arrow-right-line ri-lg ml-1"></i>
+</a>
+</div>
+</div>
+<!-- Booking Page -->
+<div class="bg-white rounded-lg overflow-hidden shadow-md">
+<div class="h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20digital%20booking%20page%20for%20a%20salon%20or%20spa%20displayed%20on%20a%20smartphone.%20The%20page%20should%20show%20a%20calendar%20with%20available%20appointment%20slots%2C%20a%20form%20for%20customer%20details%2C%20and%20service%20selection%20options.%20The%20design%20should%20use%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=600&height=400&seq=123466&orientation=portrait" alt="Booking Page Example" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-6">
+<div class="flex items-center mb-3">
+<span class="text-xs font-medium bg-secondary bg-opacity-10 text-secondary px-3 py-1 rounded-full">Booking Page</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Salon Booking System</h3>
+<p class="text-gray-700 mb-4">WhatsApp-integrated booking page for a beauty salon with service selection and time slots.</p>
+<a href="https://readdy.ai/home/40bda923-85cb-40a1-a13d-ddb3c08c5f3f/b8b1ded8-8064-409d-ba55-ca19dc5a5d5c" data-readdy="true" class="text-primary font-medium flex items-center hover:underline">
+View Details <i class="ri-arrow-right-line ri-lg ml-1"></i>
+</a>
+</div>
+</div>
+<!-- Promo Flyer -->
+<div class="bg-white rounded-lg overflow-hidden shadow-md">
+<div class="h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20digital%20promotional%20flyer%20for%20a%20special%20sale%20or%20event%20displayed%20on%20a%20smartphone.%20The%20flyer%20should%20have%20an%20eye-catching%20design%20with%20bold%20typography%2C%20product%20images%2C%20discount%20information%2C%20and%20a%20clear%20call-to-action.%20The%20design%20should%20use%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=600&height=400&seq=123467&orientation=portrait" alt="Promo Flyer Example" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-6">
+<div class="flex items-center mb-3">
+<span class="text-xs font-medium bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full">Promo Page</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Sale Announcement</h3>
+<p class="text-gray-700 mb-4">Promotional landing page for a seasonal sale with product highlights and special offers.</p>
+<a href="https://readdy.ai/home/40bda923-85cb-40a1-a13d-ddb3c08c5f3f/b8b1ded8-8064-409d-ba55-ca19dc5a5d5c" data-readdy="true" class="text-primary font-medium flex items-center hover:underline">
+View Details <i class="ri-arrow-right-line ri-lg ml-1"></i>
+</a>
+</div>
+</div>
+<!-- Custom Project -->
+<div class="bg-white rounded-lg overflow-hidden shadow-md">
+<div class="h-64 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20custom%20digital%20business%20tool%20displayed%20on%20multiple%20devices%20%28smartphone%2C%20tablet%2C%20laptop%29.%20The%20tool%20should%20have%20a%20unique%2C%20tailored%20design%20for%20a%20specific%20business%20need%2C%20with%20custom%20features%20and%20branding%20elements.%20The%20design%20should%20use%20soft%20blue%20and%20purple%20accent%20colors%20on%20a%20white%20background.&width=600&height=400&seq=123468&orientation=portrait" alt="Custom Project Example" class="w-full h-full object-cover object-top">
+</div>
+<div class="p-6">
+<div class="flex items-center mb-3">
+<span class="text-xs font-medium bg-secondary bg-opacity-10 text-secondary px-3 py-1 rounded-full">Custom Request</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">Photography Portfolio</h3>
+<p class="text-gray-700 mb-4">Custom digital portfolio with client galleries, booking system, and testimonial showcase.</p>
+<a href="https://readdy.ai/home/40bda923-85cb-40a1-a13d-ddb3c08c5f3f/b8b1ded8-8064-409d-ba55-ca19dc5a5d5c" data-readdy="true" class="text-primary font-medium flex items-center hover:underline">
+View Details <i class="ri-arrow-right-line ri-lg ml-1"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section id="contact" class="py-16 md:py-24 bg-gray-50">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Let's Talk!</h2>
+<p class="text-lg text-gray-700 max-w-2xl mx-auto">Ready to boost your business with professional digital tools? Get in touch with us today.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<!-- Contact Info -->
+<div>
+<h3 class="text-2xl font-bold text-gray-900 mb-6">Our Team</h3>
+<div class="space-y-8">
+<!-- Team Member 1 -->
+<div class="flex items-start">
+<div class="w-12 h-12 rounded-full bg-primary bg-opacity-10 flex items-center justify-center flex-shrink-0">
+<i class="ri-user-3-line ri-lg text-primary"></i>
+</div>
+<div class="ml-4">
+<h4 class="text-lg font-bold text-gray-900">Abdallah Eissa</h4>
+<p class="text-gray-700 mb-2">Product Designer</p>
+<div class="flex items-center space-x-4">
+<a href="mailto:abdallah.eissaa74@icloud.com" class="text-gray-700 hover:text-primary flex items-center">
+<i class="ri-mail-line ri-lg mr-1"></i> abdallah.eissaa74@icloud.com
+</a>
+</div>
+<div class="mt-2">
+<a href="tel:+201145979998" class="text-gray-700 hover:text-primary flex items-center">
+<i class="ri-phone-line ri-lg mr-1"></i> +20 114 597 9998
+</a>
+</div>
+<div class="mt-3">
+<a href="https://wa.me/201145979998" class="inline-flex items-center px-4 py-2 bg-[#25D366] text-white !rounded-button hover:bg-opacity-90 transition whitespace-nowrap">
+<i class="ri-whatsapp-fill ri-lg mr-2"></i> WhatsApp
+</a>
+</div>
+</div>
+</div>
+<!-- Team Member 2 -->
+<div class="flex items-start">
+<div class="w-12 h-12 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center flex-shrink-0">
+<i class="ri-user-3-line ri-lg text-secondary"></i>
+</div>
+<div class="ml-4">
+<h4 class="text-lg font-bold text-gray-900">Nour Mokhtar</h4>
+<p class="text-gray-700 mb-2">Development Lead</p>
+<div class="flex items-center space-x-4">
+<a href="mailto:nour.mokhtar@icloud.com" class="text-gray-700 hover:text-primary flex items-center">
+<i class="ri-mail-line ri-lg mr-1"></i> nour.mokhtar@icloud.com
+</a>
+</div>
+<div class="mt-2">
+<a href="tel:+201277827554" class="text-gray-700 hover:text-primary flex items-center">
+<i class="ri-phone-line ri-lg mr-1"></i> +20 127 782 7554
+</a>
+</div>
+<div class="mt-3">
+<a href="https://wa.me/201277827554" class="inline-flex items-center px-4 py-2 bg-[#25D366] text-white !rounded-button hover:bg-opacity-90 transition whitespace-nowrap">
+<i class="ri-whatsapp-fill ri-lg mr-2"></i> WhatsApp
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12">
+<h3 class="text-2xl font-bold text-gray-900 mb-6">Follow Us</h3>
+<div class="flex space-x-4">
+<a href="#" class="w-12 h-12 rounded-full bg-[#1877F2] bg-opacity-10 flex items-center justify-center text-[#1877F2] hover:bg-opacity-20 transition">
+<i class="ri-facebook-fill ri-xl"></i>
+</a>
+<a href="#" class="w-12 h-12 rounded-full bg-[#E4405F] bg-opacity-10 flex items-center justify-center text-[#E4405F] hover:bg-opacity-20 transition">
+<i class="ri-instagram-fill ri-xl"></i>
+</a>
+<a href="#" class="w-12 h-12 rounded-full bg-[#1DA1F2] bg-opacity-10 flex items-center justify-center text-[#1DA1F2] hover:bg-opacity-20 transition">
+<i class="ri-twitter-fill ri-xl"></i>
+</a>
+</div>
+</div>
+</div>
+<!-- Contact Form -->
+<div class="bg-white rounded-lg shadow-md p-8">
+<h3 class="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
+<form id="contact-form">
+<div class="mb-6">
+<label for="name" class="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+<input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:border-primary" placeholder="Enter your name">
+</div>
+<div class="mb-6">
+<label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+<input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:border-primary" placeholder="Enter your email">
+</div>
+<div class="mb-6">
+<label for="business-type" class="block text-sm font-medium text-gray-700 mb-2">Business Type</label>
+<div class="relative">
+<select id="business-type" class="w-full px-4 py-3 border border-gray-300 rounded appearance-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:border-primary pr-8">
+<option value="" disabled selected>Select your business type</option>
+<option value="restaurant">Restaurant or Café</option>
+<option value="retail">Retail Store</option>
+<option value="salon">Salon or Spa</option>
+<option value="event">Event Planning</option>
+<option value="photography">Photography</option>
+<option value="other">Other</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<i class="ri-arrow-down-s-line ri-lg text-gray-400"></i>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<label for="service" class="block text-sm font-medium text-gray-700 mb-2">Service Needed</label>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center">
+<input type="checkbox" id="digital-invitation" class="custom-checkbox">
+<label for="digital-invitation" class="ml-2 text-sm text-gray-700">Digital Invitation</label>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="qr-menu" class="custom-checkbox">
+<label for="qr-menu" class="ml-2 text-sm text-gray-700">QR Menu</label>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="lookbook" class="custom-checkbox">
+<label for="lookbook" class="ml-2 text-sm text-gray-700">Product Lookbook</label>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="booking" class="custom-checkbox">
+<label for="booking" class="ml-2 text-sm text-gray-700">Booking Page</label>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="promo" class="custom-checkbox">
+<label for="promo" class="ml-2 text-sm text-gray-700">Promo Page</label>
+</div>
+<div class="flex items-center">
+<input type="checkbox" id="custom" class="custom-checkbox">
+<label for="custom" class="ml-2 text-sm text-gray-700">Custom Request</label>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<label for="message" class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+<textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:ring-opacity-50 focus:border-primary" placeholder="Tell us about your project..."></textarea>
+</div>
+<button type="submit" class="w-full bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap flex items-center justify-center">
+<i class="ri-send-plane-line ri-lg mr-2"></i> Send Message
+</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/201145979998" class="fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition z-40">
+<i class="ri-whatsapp-fill ri-2x text-white"></i>
+</a>
+</div>
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Logo & Info -->
+<div>
+<a href="#" class="text-3xl font-['Pacifico'] text-white mb-4 inline-block">ToolnGo</a>
+<p class="text-gray-400 mb-6">Ready-made digital tools for small businesses, delivered in 48 hours.</p>
+<p class="text-gray-400">&copy; ToolnGo 2025. All rights reserved.</p>
+</div>
+<!-- Quick Links -->
+<div>
+<h4 class="text-lg font-bold mb-6">Quick Links</h4>
+<ul class="space-y-3">
+<li><a href="#" class="text-gray-400 hover:text-white transition">Home</a></li>
+<li><a href="#tools" class="text-gray-400 hover:text-white transition">Browse Tools</a></li>
+<li><a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Terms & Conditions</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+</ul>
+</div>
+<!-- CTA -->
+<div>
+<h4 class="text-lg font-bold mb-6">Start Your Project</h4>
+<p class="text-gray-400 mb-6">Ready to boost your business with professional digital tools?</p>
+<a href="#contact" class="bg-white text-gray-900 px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition inline-block whitespace-nowrap">Get Started Now</a>
+<div class="mt-8">
+<h5 class="text-sm font-bold text-gray-400 mb-4">Payment Methods</h5>
+<div class="flex space-x-4">
+<i class="ri-visa-fill ri-xl text-gray-400"></i>
+<i class="ri-mastercard-fill ri-xl text-gray-400"></i>
+<i class="ri-paypal-fill ri-xl text-gray-400"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Mobile menu toggle
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+mobileMenuButton.addEventListener('click', function() {
+mobileMenu.classList.toggle('hidden');
+if (mobileMenu.classList.contains('hidden')) {
+mobileMenuButton.innerHTML = '<i class="ri-menu-line ri-lg"></i>';
+} else {
+mobileMenuButton.innerHTML = '<i class="ri-close-line ri-lg"></i>';
+}
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// How it works step animation
+const stepProgress = document.getElementById('step-progress');
+const steps = document.querySelectorAll('[data-step]');
+function updateStepProgress() {
+const scrollPosition = window.scrollY + window.innerHeight * 0.7;
+let activeStepIndex = 0;
+steps.forEach((step, index) => {
+const stepPosition = step.getBoundingClientRect().top + window.scrollY;
+const stepCircle = step.querySelector('.rounded-full');
+if (scrollPosition > stepPosition) {
+stepCircle.classList.remove('bg-gray-200', 'text-gray-700');
+stepCircle.classList.add('bg-primary', 'text-white');
+const stepIcon = step.querySelector('.ri-2x');
+if (stepIcon) {
+stepIcon.classList.remove('text-gray-400');
+stepIcon.classList.add('text-primary');
+}
+activeStepIndex = index;
+} else {
+stepCircle.classList.remove('bg-primary', 'text-white');
+stepCircle.classList.add('bg-gray-200', 'text-gray-700');
+const stepIcon = step.querySelector('.ri-2x');
+if (stepIcon) {
+stepIcon.classList.remove('text-primary');
+stepIcon.classList.add('text-gray-400');
+}
+}
+});
+// Update progress line
+if (activeStepIndex >= 0) {
+const progress = (activeStepIndex + 1) / steps.length * 100;
+stepProgress.style.height = `${progress}%`;
+}
+}
+window.addEventListener('scroll', updateStepProgress);
+updateStepProgress(); // Initial call
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Smooth scroll for Browse Tools button
+const browseToolsBtn = document.getElementById('browse-tools-btn');
+if (browseToolsBtn) {
+browseToolsBtn.addEventListener('click', function(e) {
+e.preventDefault();
+const toolsSection = document.getElementById('tools');
+if (toolsSection) {
+toolsSection.scrollIntoView({
+behavior: 'smooth',
+block: 'start'
+});
+}
+});
+}
+// Form submission
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+contactForm.addEventListener('submit', function(e) {
+e.preventDefault();
+// Form validation and submission logic would go here
+alert('Thank you for your message! We will get back to you within 24 hours.');
+contactForm.reset();
+});
+}
+});
+</script>
+</body>
+</html>
